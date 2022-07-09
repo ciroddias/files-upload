@@ -6,7 +6,7 @@ const theme = {
         alternativeText: "#27474e",
         detail: '#ac3931',
         red: '#fc5a55',
-        green: '#81e979',
+        green: '#3ca334',
     }
 }
 

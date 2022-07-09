@@ -5,8 +5,10 @@ import Card from '../components/Card'
 import { FiUpload } from 'react-icons/fi'
 import theme from '../styles/theme'
 import Dropzone from '../components/Dropzone'
+import Button from '../components/Button'
 
 const Home: NextPage = () => {
+  const isSendButtonActive = true
   return (
     <div>
       <Head>
@@ -26,6 +28,7 @@ const Home: NextPage = () => {
           }
         >
           <Dropzone />
+          <Button label="Enviar" isActive={isSendButtonActive} />
         </Card>
       </main>
     </div>

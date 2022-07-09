@@ -10,12 +10,13 @@ export default function Dropzone() {
     acceptedFiles.forEach(file => {
         formData.append("file", file)
     });
-    await uploadFiles(formData)
+    const response = await uploadFiles(formData)
   }, [])
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
     onDrop, 
     accept: {
+    'image/jpg': ['.jpg'],
     'image/png': ['.png'],
     'text/html': ['.html', '.htm'],
   }})
