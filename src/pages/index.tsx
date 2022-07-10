@@ -13,18 +13,25 @@ import { instance } from './api'
 
 const Home: NextPage = () => {
   const [files, setFiles] = useState<File[]>([])
-
+  const [uploadProgress, setUploadProgress] = useState(0)
+ 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = [...e.target.files]
-    console.log(selectedFiles)
-    setFiles(...files, selectedFiles)
-    const formData = new FormData();
-    selectedFiles.map(
-      file => {
-        formData.append("file", file)
-      }
-    )
-    const response = await uploadFiles(formData)
+    
+    for (let i = 0; i < selectedFiles.length; i++) {
+      let array = [...files]
+      array.push(selectedFiles[i])
+      setFiles(array)
+    }
+    console.log(files)
+
+    // const formData = new FormData();
+    // selectedFiles.map(
+    //   file => {
+    //     formData.append("file", file)
+    //   }
+    // )
+    // const response = await uploadFiles(formData)
   }
 
   async function uploadFiles(formData: FormData) {
@@ -37,8 +44,7 @@ const Home: NextPage = () => {
           const progress: number = Math.round(
             (e.loaded * 100) / e.total
           )
-
-          console.log({progress})
+          setUploadProgress(progress)
         }
       })
       return response
@@ -68,7 +74,7 @@ const Home: NextPage = () => {
           <Input label='Selecione os arquivos' type='file' accept="image/png, image/jpg, image/gif, image/jpeg" onChange={handleUpload}/>
           <Dropzone />
         </Card>
-        <UploadModal files={files}/>
+        <UploadModal files={files} uploadProgress={uploadProgress}/>
       </main>
     </div>
   )

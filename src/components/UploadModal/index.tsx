@@ -10,18 +10,20 @@ import { UploadProgressContext } from "../../contexts/uploadProgressContext";
 
 interface IUploadModal {
     files: File[];
+    uploadProgress: number;
 }
 
-export default function UploadModal({files}: IUploadModal) {
-    const { uploadProgress, setUploadProgress } = useContext(UploadProgressContext)
+export default function UploadModal({files, uploadProgress}: IUploadModal) {
+    console.log('upload: ' + {files})
     return (
         <div>
             {
                 files.map((file: File) => {
+                    console.log(files, uploadProgress)
                     return (
                     <Container key={uuidv4()}>
                         <FileUploadProgress 
-                            name={file.name} 
+                            name={file.name.split('.')[0]} 
                             size={file.size} 
                             value={uploadProgress} />
                     </Container>
