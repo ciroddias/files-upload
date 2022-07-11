@@ -14,6 +14,7 @@ import { instance } from './api'
 const Home: NextPage = () => {
   const [files, setFiles] = useState<File[]>([])
   const [uploadProgress, setUploadProgress] = useState(0)
+  const [currentFileIndex, setCurrentFileIndex] = useState(0);
   
  
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +25,6 @@ const Home: NextPage = () => {
       array.push(selectedFiles[i])
       setFiles(array)
     }
-    console.log(files)
 
     const formData = new FormData();
     selectedFiles.map(
@@ -45,6 +45,7 @@ const Home: NextPage = () => {
           const progress: number = Math.round(
             (e.loaded * 100) / e.total
           )
+          if (progress === 100) setCurrentFileIndex(currentFileIndex+1)
           setUploadProgress(progress)
         }
       })
@@ -75,7 +76,11 @@ const Home: NextPage = () => {
           <Input label='Selecione os arquivos' type='file' accept="image/png, image/jpg, image/gif, image/jpeg" onChange={handleUpload}/>
           <Dropzone />
         </Card>
-        <UploadModal files={files} uploadProgress={uploadProgress}/>
+        {files.length > 0 
+          && <UploadModal
+                currentFileIndex={currentFileIndex}
+                files={files} 
+                uploadProgress={uploadProgress}/>}
       </main>
     </div>
   )
