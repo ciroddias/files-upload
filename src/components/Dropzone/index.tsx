@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
-import { uploadFiles } from '../../pages/api';
 import { Container } from './styles';
 
 export default function Dropzone() {
@@ -10,7 +9,7 @@ export default function Dropzone() {
     acceptedFiles.forEach(file => {
         formData.append("file", file)
     });
-    const response = await uploadFiles(formData)
+    //const response = await uploadFiles(formData)
   }, [])
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({

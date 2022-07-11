@@ -18,7 +18,7 @@ const Home: NextPage = () => {
   
  
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = [...e.target.files]
+    const selectedFiles = [...e.target.files as any]
     
     for (let i = 0; i < selectedFiles.length; i++) {
       let array = files
