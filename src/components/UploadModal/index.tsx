@@ -22,11 +22,11 @@ export default function UploadModal({files, uploadProgress}: IUploadModal) {
                     return (
                         <FileUploadProgress 
                             key={uuidv4()}
-                            name={file.name.split('.')[0]} 
+                            name={file.name} 
                             size={file.size} 
-                            value={uploadProgress} />
-                    )
-                            
+                            value={uploadProgress} 
+                        />
+                    )                            
                 })
             }
         </Container>    

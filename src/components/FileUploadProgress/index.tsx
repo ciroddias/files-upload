@@ -13,18 +13,19 @@ interface IFileUploadProgressProps {
 export default function FileUploadProgress({key, name, size, value }:IFileUploadProgressProps) {
     return (
         <Container key={key}>            
-            {name}
-            {size}
+            {name} <br />
+            size: {(size/1000).toFixed(2)} KB
+
             <div>
                 <CircularProgressbar 
-                    styles={{
-                        root: {width: 24}, 
-                        path: {stroke: theme.colors.detail}
-                    }}
-                    strokeWidth={10}
+                    strokeWidth={20}
                     value={value}
+                    styles={{
+                        root: {width: 25}, 
+                        path: {stroke: theme.colors.green}
+                    }}
                 />
-            </div>            
+            </div>          
         </Container>
     )
 }
