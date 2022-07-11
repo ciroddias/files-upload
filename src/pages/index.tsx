@@ -5,10 +5,56 @@ import Card from '../components/Card'
 import { FiUpload } from 'react-icons/fi'
 import theme from '../styles/theme'
 import Dropzone from '../components/Dropzone'
-import Button from '../components/Button'
+import Input from '../components/Input'
+import { ChangeEvent, useState } from 'react'
+import UploadModal from '../components/UploadModal'
+import { IFile } from '../interfaces/IFile'
+import { instance } from './api'
 
 const Home: NextPage = () => {
-  const isSendButtonActive = true
+  const [files, setFiles] = useState<File[]>([])
+  const [uploadProgress, setUploadProgress] = useState(0)
+  const [currentFileIndex, setCurrentFileIndex] = useState(0);
+  
+ 
+  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = [...e.target.files]
+    
+    for (let i = 0; i < selectedFiles.length; i++) {
+      let array = files
+      array.push(selectedFiles[i])
+      setFiles(array)
+    }
+
+    const formData = new FormData();
+    selectedFiles.map(
+      file => {
+        formData.append("file", file)
+      }
+    )
+    const response = await uploadFiles(formData)
+  }
+
+  async function uploadFiles(formData: FormData) {
+    try {
+      const response = await instance.post('/', formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        onUploadProgress: (e: ProgressEvent) => { 
+          const progress: number = Math.round(
+            (e.loaded * 100) / e.total
+          )
+          if (progress === 100) setCurrentFileIndex(currentFileIndex+1)
+          setUploadProgress(progress)
+        }
+      })
+      return response
+    } catch (error: any) {
+      return {status: false, message: error.message}
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -27,9 +73,14 @@ const Home: NextPage = () => {
               />
           }
         >
+          <Input label='Selecione os arquivos' type='file' accept="image/png, image/jpg, image/gif, image/jpeg" onChange={handleUpload}/>
           <Dropzone />
-          <Button label="Enviar" isActive={isSendButtonActive} />
         </Card>
+        {files.length > 0 
+          && <UploadModal
+                currentFileIndex={currentFileIndex}
+                files={files} 
+                uploadProgress={uploadProgress}/>}
       </main>
     </div>
   )
