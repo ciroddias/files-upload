@@ -14,22 +14,21 @@ interface IUploadModal {
 }
 
 export default function UploadModal({files, uploadProgress}: IUploadModal) {
-    console.log('upload: ' + {files})
+    files.map(file => console.log(file))
     return (
-        <div>
+        <Container>
             {
                 files.map((file: File) => {
-                    console.log(files, uploadProgress)
                     return (
-                    <Container key={uuidv4()}>
                         <FileUploadProgress 
+                            key={uuidv4()}
                             name={file.name.split('.')[0]} 
                             size={file.size} 
                             value={uploadProgress} />
-                    </Container>
                     )
+                            
                 })
             }
-        </div>
+        </Container>    
     )
 }

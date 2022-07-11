@@ -14,24 +14,25 @@ import { instance } from './api'
 const Home: NextPage = () => {
   const [files, setFiles] = useState<File[]>([])
   const [uploadProgress, setUploadProgress] = useState(0)
+  
  
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = [...e.target.files]
     
     for (let i = 0; i < selectedFiles.length; i++) {
-      let array = [...files]
+      let array = files
       array.push(selectedFiles[i])
       setFiles(array)
     }
     console.log(files)
 
-    // const formData = new FormData();
-    // selectedFiles.map(
-    //   file => {
-    //     formData.append("file", file)
-    //   }
-    // )
-    // const response = await uploadFiles(formData)
+    const formData = new FormData();
+    selectedFiles.map(
+      file => {
+        formData.append("file", file)
+      }
+    )
+    const response = await uploadFiles(formData)
   }
 
   async function uploadFiles(formData: FormData) {
